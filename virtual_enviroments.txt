@@ -1,0 +1,35 @@
+1. Create Project Folder
+
+mkdir <project_name>
+
+
+2.Create the virtual enviroment (venv) of the project
+
+Inside the folder <project_name>, create its own venv:
+
+<project_name>_venv
+
+
+3.Activate the venv
+
+  1. CREATE: python3 -m venv .<project_name>_venv
+  2. ACTIVATE: source .<project_name>_venv/bin/activate
+  3. DEACTIVATE: deactivate
+  
+If you want to remove the venv:
+sudo rm -rf .<project_name>_venv
+
+
+4. Install all necessary packages using pip
+
+While having the venv active
+
+pip install <package_name>
+
+NOTE: If you have a requirements.txt, you can install all packages with pip install -r requirements.txt
+
+
+5. Create requirements.txt file
+After finishing the project, clean the venv from any unnecessary packages and create the requirements.txt file
+
+pip freeze > requirements.txt
