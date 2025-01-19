@@ -1,4 +1,5 @@
 from datetime import date
+from calendar import monthrange
 
 # TODO!: Debug line 25/26
 # TODO: read documentation for library time
@@ -16,8 +17,9 @@ def calculate_age(birthdate) -> tuple[int]:
   
   if today.day < birthdate.day:
     month_before_today = today.month - 1 if today.month > 1 else 12
-    days_in_month = date((today.year, today.month, 1) - date(today.year, month_before_today, 1)).days
-    age_days = days_in_month - (birthdate.day - today.days)
+    days_in_month = (date(today.year, today.month, 1) - date(today.year, month_before_today, 1)).days
+    days_in_month = monthrange(today.year, month_before_today)
+    age_days = days_in_month[1] - (birthdate.day - today.day)
   else:
     age_days = today.day - birthdate.day
 
