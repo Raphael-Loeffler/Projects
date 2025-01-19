@@ -1,6 +1,4 @@
 # TODO! : line 12
-# TODO : change all previous code with OOP and flexible functionality
-# TODO : create a weight converter (kg <-> lb)
 
 from argparse import ArgumentParser
 
