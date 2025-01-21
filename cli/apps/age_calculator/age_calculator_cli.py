@@ -1,8 +1,6 @@
 from datetime import date
 from calendar import monthrange
 
-# TODO: read documentation for library time
-
 def calculate_age(birthdate) -> tuple[int]:
   today = date.today()
   age_year = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
