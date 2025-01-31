@@ -5,7 +5,7 @@
 #-Special characters - Done
 #-does not repeat characters - Done
 
-class Check_password_strength:
+class Password_Strength_Checker:
     def __init__(self):
         self.password: str = input("Input the password to check: ")
     
