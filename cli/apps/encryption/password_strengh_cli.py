@@ -43,7 +43,7 @@ class Password_Strength_Checker:
         return "The password is strong."
 
 def run():
-    password_strength_checker = Check_password_strength()
+    password_strength_checker = Password_Strength_Checker()
     print(password_strength_checker.check_strength())
 
 if __name__ == "__main__":
