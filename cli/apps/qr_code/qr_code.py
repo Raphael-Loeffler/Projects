@@ -9,16 +9,13 @@ from PIL.PngImagePlugin import PngImageFile
 
 
 class QR_Code_RW:
-  def __init__(self):
-    pass
-  
-  def decode_qr_code(image_path) -> str:
+  def decode_qr_code(self, image_path: str) -> str:
     img: PngImageFile = Image.open(image_path)
     url_decoded: Decoded = decode(img)
     url: str = url_decoded[0].data.decode('utf-8')
     return url
   
-  def encode_qr_code(text: str, image_name: str) -> None:
+  def encode_qr_code(self, text: str, image_name: str) -> None:
     qr: QRCode = QRCode(
       version=None,
       error_correction=ERROR_CORRECT_L,
@@ -43,9 +40,9 @@ class QR_Code_RW:
         self.encode_qr_code(text=url, image_name=image_name)
       case 2: 
         image_path: str = input("Please provide the path to the files: ")
-        self.decode_qr_code(image_path=image_path)
+        print(self.decode_qr_code(image_path=image_path))
       case _: ...
 
 if __name__ == "__main__":
-  qr_manager = QR_Code_RW
-  qr_manager.decode_qr_code()
+  qr_manager = QR_Code_RW()
+  qr_manager.run()
