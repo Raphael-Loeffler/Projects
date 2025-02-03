@@ -1,18 +1,21 @@
-from morse_constants import CHARS_TO_MORSE, MORSE_TO_CHARS
+from morse_constants import *
 
-class Morse_Code_Translator:
+class MorseCodeTranslator:
     def translate(self) -> str:
-        print("""1. Translate morse code into normal letters.
-2. Translate normal letters into morse code.""")
-        match input("Please take an option (press 1 or 2): "):
+        print(MENU_INSTRUCTIONS)
+        user_input: str = input("Please take an option (press 1 or 2): ")
+        match user_input:
             case '1': return(self.translate_morse_code(input("Please enter the morse code: ")))
             case '2': return(self.translate_letters(input("Please enter the word/sentence: ")))
-            case _: return "Something went wrong. Please only press 1 or 2."
+            case _: return ERROR_MESSAGE
     
     def translate_morse_code(self, morse_code: str) -> str:
         output: str = ""
         for key in morse_code.split(" "):
-            output += MORSE_TO_CHARS[key]
+            try:
+                output += MORSE_TO_CHARS[key]
+            except:
+                output += "\\"
         return output
     
     def translate_letters(self, letters: str) -> str:
@@ -30,7 +33,7 @@ class Morse_Code_Translator:
         return output
 
 def run() -> None:
-    morse_code_translator = Morse_Code_Translator()
+    morse_code_translator = MorseCodeTranslator()
     print(morse_code_translator.translate())
 
 
