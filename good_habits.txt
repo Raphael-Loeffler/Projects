@@ -1,0 +1,5 @@
+#Put constants in a seperate file and import
+
+#Delete or exclude __pycache__
+
+#
