@@ -3,7 +3,7 @@ from tkinter import ttk
 
 # TODO:
 # 1. Change the title of the application - Done
-# TODO! 2. In the same app, I want to be able to convert different quantities
+# 2. In the same app, I want to be able to convert different quantities - Done
 # 3. Make it not resizable (hint: in/after window.geometry) - Done
 # Extras:
 # 1. (entry of miles) mi = (label for kilometers) km
@@ -26,6 +26,7 @@ class ConverterPack:
     self.window.grid_rowconfigure(self.row, minsize=20)
     self.window.grid_rowconfigure(self.row+1, minsize=20)
     self.window.grid_rowconfigure(self.row+2, minsize=20)
+    self.window.eval('tk::PlaceWindow . center')
     
     self.title_label = ttk.Label(master=self.window, text=self.label, font="Calibri 14 bold")
     self.title_label.grid(row=self.row, column=0, sticky="w")
