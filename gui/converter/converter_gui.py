@@ -26,7 +26,6 @@ class ConverterPack:
     self.window.grid_rowconfigure(self.row, minsize=20)
     self.window.grid_rowconfigure(self.row+1, minsize=20)
     self.window.grid_rowconfigure(self.row+2, minsize=20)
-    self.window.eval('tk::PlaceWindow . center')
     
     self.title_label = ttk.Label(master=self.window, text=self.label, font="Calibri 14 bold")
     self.title_label.grid(row=self.row, column=0, sticky="w")
@@ -62,8 +61,9 @@ class ConverterGUIApp:
   def run(self):
     window = tk.Tk()
     window.title("Converter")
-    window.geometry("300x250")
+    window.geometry("300x350")
     window.resizable(False, False)
+    window.eval('tk::PlaceWindow . center')
     
     distance_converter: ConverterPack = ConverterPack(0, window, "Distance Converter", "Miles", "Kilometers", "distance")
     currency_converter: ConverterPack = ConverterPack(3, window, "Currency Converter", "Euro", "Czk", "currency")
