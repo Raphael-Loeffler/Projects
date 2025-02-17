@@ -1,2 +1,3 @@
 /gui/converter/.converter_gui_venv
 /home/raphael/GitHub/Projects/cli/apps/morse_code/__pycache__
+*_venv*
