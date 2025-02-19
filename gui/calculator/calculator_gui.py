@@ -3,7 +3,8 @@ from constants import *
 
 """
   TODO List
-  1. Complete create_clear_button()
+  1. Complete create_clear_button() - Done
+  TODO!
   2. Complete create_square_button() x\u00b2
   3. Complete create_sqrt_button() \u221ax
   4. In evaluate() avoid errors ...
@@ -37,7 +38,7 @@ class Calculator:
       '.': (4, 1), 0:(4, 2)
     }
     self.operations: dict = {
-      "/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+"
+      "/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+", "\u00D7 \u00D7": "² "
     }
     self.display_frame: Frame = self.create_display_frame()
     self.total_label, self.current_label = self.create_display_labels()
@@ -58,9 +59,31 @@ class Calculator:
       self.buttons_frame.columnconfigure(i, weight=1)
     self.create_digit_buttons()
     self.create_operator_buttons()
-    #self.create_clear_button()
+    self.create_clear_button()
+    self.create_square_button()
     #self.create_sqrt_button()
     self.create_equals_button()
+  
+  def create_square_button(self) -> None:
+    button: Button = Button(master=self.buttons_frame, text="x\u00b2", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.square)
+    button.grid(row=0, column=2, sticky=NSEW)
+  
+  def square(self) -> None:
+    self.current_expression += "**2"
+    self.total_expression += self.current_expression
+    self.current_expression = ""
+    self.update_current_label()
+    self.update_total_label()
+  
+  def clear(self) -> None:
+    self.current_expression = ""
+    self.total_expression = ""
+    self.update_current_label()
+    self.update_total_label()
+  
+  def create_clear_button(self) -> None:
+    button: Button = Button(master=self.buttons_frame, text="C", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, cursor="hand2", command=self.clear)
+    button.grid(row=0, column=1, sticky=NSEW)
   
   def add_operator(self, operator) -> None:
     self.current_expression += operator
@@ -71,13 +94,16 @@ class Calculator:
   
   def evaluate(self) -> None:
     self.total_expression += self.current_expression
-    self.current_expression = f"{eval(self.total_expression)}"
+    try:
+      self.current_expression = f"{eval(self.total_expression)}" if self.total_expression != "" else ""
+    except:
+      self.current_expression = "Error"
     self.total_expression = ""
     self.update_current_label()
     self.update_total_label()
   
   def create_equals_button(self) -> None:
-    button: Button = Button(self.buttons_frame, text="=", bg=LIGHT_BLUE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.evaluate)
+    button: Button = Button(master=self.buttons_frame, text="=", bg=LIGHT_BLUE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.evaluate)
     button.grid(row=4, column=3, columnspan=2, sticky=NSEW)
   
   def create_operator_buttons(self) -> None:
