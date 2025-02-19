@@ -1,0 +1,16 @@
+# DIMENSIONS
+APP_WIDTH: int = 250
+APP_HEIGHT: int = 500
+
+# COLORS
+LIGHT_GRAY = "#F5F5F5"
+WHITE = "#FFFFFF"
+LABEL_COLOR = "#25265E"
+OFF_WHITE = "#F8FAFF"
+LIGHT_BLUE = "#CCEDFF"
+
+# FONT
+DEFAULT_FONT = ("arial", 20)
+SMALL_FONT = ("arial", 15)
+BIG_FONT = ("arial", 20, "bold")
+BUTTONS_FONT = ("arial", 24, "bold")
