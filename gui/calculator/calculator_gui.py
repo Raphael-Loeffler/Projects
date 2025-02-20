@@ -28,7 +28,8 @@ class Calculator:
     APP_Y: int = (SCREEN_HEIGHT - APP_HEIGHT) // 2
     
     self.window.geometry(f"{APP_WIDTH}x{APP_HEIGHT}+{APP_X}+{APP_Y}") # "width x height + x_point + y_point"
-    
+    self.current_expression_eval: str = ""
+    self.total_expression_eval: str = ""
     self.current_expression: str = ""
     self.total_expression: str = ""
     self.digits: dict = {
@@ -50,6 +51,7 @@ class Calculator:
   
   def add_to_expression(self,value) -> None:
     self.current_expression += str(value)
+    self.current_expression_eval += str(value)
     self.update_current_label()
   
   def create_buttons(self) -> None:
@@ -69,7 +71,8 @@ class Calculator:
     button.grid(row=0, column=2, sticky=NSEW)
   
   def square(self) -> None:
-    self.current_expression += "**2"
+    self.current_expression += "²"
+    self.current_expression_eval += "**2"
     self.total_expression += self.current_expression
     self.current_expression = ""
     self.update_current_label()
@@ -78,6 +81,8 @@ class Calculator:
   def clear(self) -> None:
     self.current_expression = ""
     self.total_expression = ""
+    self.current_expression_eval = ""
+    self.total_expression_eval = ""
     self.update_current_label()
     self.update_total_label()
   
@@ -85,20 +90,23 @@ class Calculator:
     button: Button = Button(master=self.buttons_frame, text="C", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, cursor="hand2", command=self.clear)
     button.grid(row=0, column=1, sticky=NSEW)
   
-  def add_operator(self, operator) -> None:
-    self.current_expression += operator
-    self.total_expression += self.current_expression
+  def add_operator(self, operator, symbol) -> None:
+    self.update_current_label()
+    self.current_expression_eval += operator
+    self.total_expression += f"{self.current_expression}{symbol}"
     self.current_expression = ""
     self.update_current_label()
     self.update_total_label()
   
   def evaluate(self) -> None:
     self.total_expression += self.current_expression
+    self.total_expression_eval += self.current_expression_eval
     try:
-      self.current_expression = f"{eval(self.total_expression)}" if self.total_expression != "" else ""
+      self.current_expression = f"{eval(self.total_expression_eval)}" if self.total_expression_eval != "" else ""
     except:
       self.current_expression = "Error"
     self.total_expression = ""
+    self.total_expression_eval = ""
     self.update_current_label()
     self.update_total_label()
   
@@ -109,7 +117,7 @@ class Calculator:
   def create_operator_buttons(self) -> None:
     i = 0
     for operator, symbol in self.operations.items():
-      button: Button = Button(master=self.buttons_frame, text=symbol, bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, cursor="hand2", command=lambda x=operator: self.add_operator(x))
+      button: Button = Button(master=self.buttons_frame, text=symbol, bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, cursor="hand2", command=lambda x=operator, y=symbol: self.add_operator(x, y))
       button.grid(row=i, column=4, sticky=NSEW)
       i += 1
   
@@ -119,13 +127,12 @@ class Calculator:
       button.grid(row=position[0], column=position[1], sticky=NSEW)
   
   def update_total_label(self) -> None:
-    expression = self.total_expression
-    for operator, symbol in self.operations.items():
-      expression = expression.replace(operator, f" {symbol} ")
-    self.total_label.config(text=expression)
+    self.total_label.config(text=self.total_expression)
   
   def update_current_label(self) -> None:
-    self.current_label.config(text=self.current_expression)
+    self.updated_expression: str = f"{round(float(self.current_expression), 10):g}" if self.current_expression != "" else ""
+    self.current_expression = self.updated_expression
+    self.current_label.config(text=self.updated_expression)
   
   def create_buttons_frame(self) -> Frame:
     buttons_frame: Frame = Frame(master=self.window)
