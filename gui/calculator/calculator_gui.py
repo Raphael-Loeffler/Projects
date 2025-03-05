@@ -1,5 +1,6 @@
 from tkinter import Tk, Frame, Button, Label, NSEW, E
 from constants import *
+from math import pi
 
 """
   TODO List
@@ -28,10 +29,10 @@ class Calculator:
     APP_Y: int = (SCREEN_HEIGHT - APP_HEIGHT) // 2
     
     self.window.geometry(f"{APP_WIDTH}x{APP_HEIGHT}+{APP_X}+{APP_Y}") # "width x height + x_point + y_point"
-    self.current_expression_eval: str = ""
-    self.total_expression_eval: str = ""
+    self.expression_eval: str = ""
     self.current_expression: str = ""
     self.total_expression: str = ""
+    self.root_type: list = list()
     self.digits: dict = {
       7: (1, 1), 8: (1, 2), 9: (1, 3),
       4: (2, 1), 5: (2, 2), 6: (2, 3),
@@ -51,7 +52,7 @@ class Calculator:
   
   def add_to_expression(self,value) -> None:
     self.current_expression += str(value)
-    self.current_expression_eval += str(value)
+    self.expression_eval += str(value)
     self.update_current_label()
   
   def create_buttons(self) -> None:
@@ -63,23 +64,58 @@ class Calculator:
     self.create_operator_buttons()
     self.create_clear_button()
     self.create_square_button()
-    self.create_sqrt_button()
+    self.create_open_sqrt_button()
+    self.create_open_curt_button()
+    self.create_close_root_button()
     self.create_equals_button()
+    self.create_pi_button()
   
-  def create_sqrt_button(self) -> None:
-    self.sqrt_text: str = SQRT_TEXT_POOL[0]
-    self.sqrt_button: Button = Button(width=1,master=self.buttons_frame, text=self.sqrt_text, bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.sqrt)
-    self.sqrt_button.grid(row=0, column=3, sticky=NSEW)
+  def create_pi_button(self) -> None:
+    button: Button = Button(master=self.buttons_frame, text="π", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.pi)
+    button.grid(row=0, column=5, sticky=NSEW)
   
-  def sqrt(self) -> None:
-    sqrt_opened: bool = self.sqrt_text == SQRT_TEXT_POOL[0]
-    self.sqrt_text = SQRT_TEXT_POOL[1] if sqrt_opened else SQRT_TEXT_POOL[0]
-    
-    self.sqrt_button.config(text=self.sqrt_text)
-    self.current_expression_eval += "(" if sqrt_opened else ")**0.5"
-    self.current_expression += "\u221a" if sqrt_opened else ""
+  def pi(self) -> None:
+    self.current_expression += "π"
+    self.expression_eval += f"{pi}"
+    self.update_current_label()
+  
+  def create_open_sqrt_button(self) -> None:
+    button: Button = Button(width=1,master=self.buttons_frame, text=OPEN_SQRT_CONFIG_TEXT, bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.open_sqrt)
+    button.grid(row=1, column=5, sticky=NSEW)
+  
+  def create_open_curt_button(self) -> None:
+    button: Button = Button(width=1,master=self.buttons_frame, text=OPEN_CURT_CONFIG_TEXT, bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.open_curt)
+    button.grid(row=2, column=5, sticky=NSEW)
+  
+  def create_open_cuberoot_button(self) -> None:
+    self.cuberoot_button: Button = Button(width=1,master=self.buttons_frame, text=OPEN_SQRT_CONFIG_TEXT, bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.open_sqrt)
+  
+  def create_close_root_button(self) -> None:
+    self.sqrt_button: Button = Button(width=1,master=self.buttons_frame, text=CLOSE_ROOT_CONFIG_TEXT, bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.close_root)
+    self.sqrt_button.grid(row=3, column=5, sticky=NSEW)
+  
+  def open_sqrt(self) -> None:
+    self.expression_eval += "("
+    self.current_expression += OPEN_SQRT_EXPRESSION
+    self.root_type.append(2)
     
     self.update_current_label()
+  
+  def open_curt(self) -> None:
+    self.expression_eval += "("
+    self.current_expression += OPEN_CURT_EXPRESSION
+    self.root_type.append(3)
+    
+    self.update_current_label()
+  
+  def close_root(self) -> None:
+    self.expression_eval += f")**{1 / self.root_type[-1]}"
+    self.current_expression += CLOSE_ROOT_EXPRESSION
+    self.root_type.pop()
+    self.total_expression += self.current_expression
+    self.current_expression = ""
+    self.update_current_label()
+    self.update_total_label()
   
   def create_square_button(self) -> None:
     button: Button = Button(master=self.buttons_frame, text="x\u00b2", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.square)
@@ -87,7 +123,7 @@ class Calculator:
   
   def square(self) -> None:
     self.current_expression += "²"
-    self.current_expression_eval += "**2"
+    self.expression_eval += "**2"
     self.total_expression += self.current_expression
     self.current_expression = ""
     self.update_current_label()
@@ -96,8 +132,7 @@ class Calculator:
   def clear(self) -> None:
     self.current_expression = ""
     self.total_expression = ""
-    self.current_expression_eval = ""
-    self.total_expression_eval = ""
+    self.expression_eval = ""
     self.update_current_label()
     self.update_total_label()
   
@@ -107,17 +142,15 @@ class Calculator:
   
   def add_operator(self, operator, symbol) -> None:
     self.update_current_label()
-    self.current_expression_eval += operator
+    self.expression_eval += operator
     self.total_expression += f"{self.current_expression}{symbol}"
     self.current_expression = ""
     self.update_current_label()
     self.update_total_label()
   
   def evaluate(self) -> None:
-    self.total_expression += self.current_expression
-    self.total_expression_eval += self.current_expression_eval
     try:
-      self.current_expression = f"{eval(self.total_expression_eval)}" if self.total_expression_eval != "" else ""
+      self.current_expression = f"{eval(self.expression_eval)}" if self.expression_eval != "" else ""
     except:
       self.current_expression = "Error"
     self.total_expression = ""
