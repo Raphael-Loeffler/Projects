@@ -66,6 +66,9 @@ class Calculator:
     #self.create_sqrt_button()
     self.create_equals_button()
   
+  def create_sqrt_button(self) -> None:
+    self.sqrt_button: Button
+  
   def create_square_button(self) -> None:
     button: Button = Button(master=self.buttons_frame, text="x\u00b2", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.square)
     button.grid(row=0, column=2, sticky=NSEW)
