@@ -14,3 +14,6 @@ DEFAULT_FONT = ("arial", 20)
 SMALL_FONT = ("arial", 15)
 BIG_FONT = ("arial", 20, "bold")
 BUTTONS_FONT = ("arial", 24, "bold")
+
+# TEXT
+SQRT_TEXT_POOL = ("\u221ax", "x'")

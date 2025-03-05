@@ -63,11 +63,25 @@ class Calculator:
     self.create_operator_buttons()
     self.create_clear_button()
     self.create_square_button()
-    #self.create_sqrt_button()
+    self.create_sqrt_button()
     self.create_equals_button()
   
   def create_sqrt_button(self) -> None:
-    self.sqrt_button: Button
+    self.sqrt_text: str = SQRT_TEXT_POOL[0]
+    self.sqrt_button: Button = Button(width=1,master=self.buttons_frame, text=self.sqrt_text, bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.sqrt)
+    self.sqrt_button.grid(row=0, column=3, sticky=NSEW)
+  
+  def sqrt(self) -> None:
+    sqrt_opened: bool = self.sqrt_text == SQRT_TEXT_POOL[0]
+    self.sqrt_text = SQRT_TEXT_POOL[1] if sqrt_opened else SQRT_TEXT_POOL[0]
+    
+    self.sqrt_button.config(text=self.sqrt_text)
+    self.current_expression_eval += "(" if sqrt_opened else ")**0.5"
+    self.current_expression += "\u221a" if sqrt_opened else ""
+    
+    self.update_current_label()
+    
+  
   
   def create_square_button(self) -> None:
     button: Button = Button(master=self.buttons_frame, text="x\u00b2", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.square)
@@ -133,7 +147,11 @@ class Calculator:
     self.total_label.config(text=self.total_expression)
   
   def update_current_label(self) -> None:
-    self.updated_expression: str = f"{round(float(self.current_expression), 10):g}" if self.current_expression != "" else ""
+    try:
+      self.updated_expression: str = f"{round(float(self.current_expression), 10):g}"
+    except:
+      self.updated_expression: str = self.current_expression
+    
     self.current_expression = self.updated_expression
     self.current_label.config(text=self.updated_expression)
   
