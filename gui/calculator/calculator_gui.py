@@ -80,8 +80,6 @@ class Calculator:
     self.current_expression += "\u221a" if sqrt_opened else ""
     
     self.update_current_label()
-    
-  
   
   def create_square_button(self) -> None:
     button: Button = Button(master=self.buttons_frame, text="x\u00b2", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.square)
@@ -148,12 +146,11 @@ class Calculator:
   
   def update_current_label(self) -> None:
     try:
-      self.updated_expression: str = f"{round(float(self.current_expression), 10):g}"
+      self.current_expression = f"{round(float(self.current_expression), 10):g}"
     except:
-      self.updated_expression: str = self.current_expression
+      ...
     
-    self.current_expression = self.updated_expression
-    self.current_label.config(text=self.updated_expression)
+    self.current_label.config(text=self.current_expression)
   
   def create_buttons_frame(self) -> Frame:
     buttons_frame: Frame = Frame(master=self.window)
