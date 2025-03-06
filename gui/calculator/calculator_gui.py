@@ -40,7 +40,7 @@ class Calculator:
       '.': (4, 1), 0:(4, 2)
     }
     self.operations: dict = {
-      "/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+", "\u00D7 \u00D7": "² "
+      "/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+", "%": "%"
     }
     self.display_frame: Frame = self.create_display_frame()
     self.total_label, self.current_label = self.create_display_labels()
@@ -51,8 +51,8 @@ class Calculator:
     ...
   
   def add_to_expression(self,value) -> None:
-    self.current_expression += str(value)
-    self.expression_eval += str(value)
+    self.current_expression += f"{value}"
+    self.expression_eval = f"{self.expression_eval}{value}"
     self.update_current_label()
   
   def create_buttons(self) -> None:
@@ -69,10 +69,19 @@ class Calculator:
     self.create_close_root_button()
     self.create_equals_button()
     self.create_pi_button()
+    self.create_del_button()
+  
+  def create_del_button(self) -> None:
+    button: Button = Button(master=self.buttons_frame, text="\u2190", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.delete)
+    button.grid(row=0, column=5, sticky=NSEW)
+  
+  def delete(self) -> None:
+    self.current_expression = self.current_expression[:-1]
+    self.update_current_label()
   
   def create_pi_button(self) -> None:
     button: Button = Button(master=self.buttons_frame, text="π", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.pi)
-    button.grid(row=0, column=5, sticky=NSEW)
+    button.grid(row=0, column=3, sticky=NSEW)
   
   def pi(self) -> None:
     self.current_expression += "π"
@@ -86,9 +95,6 @@ class Calculator:
   def create_open_curt_button(self) -> None:
     button: Button = Button(width=1,master=self.buttons_frame, text=OPEN_CURT_CONFIG_TEXT, bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.open_curt)
     button.grid(row=2, column=5, sticky=NSEW)
-  
-  def create_open_cuberoot_button(self) -> None:
-    self.cuberoot_button: Button = Button(width=1,master=self.buttons_frame, text=OPEN_SQRT_CONFIG_TEXT, bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.open_sqrt)
   
   def create_close_root_button(self) -> None:
     self.sqrt_button: Button = Button(width=1,master=self.buttons_frame, text=CLOSE_ROOT_CONFIG_TEXT, bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.close_root)
@@ -112,8 +118,6 @@ class Calculator:
     self.expression_eval += f")**{1 / self.root_type[-1]}"
     self.current_expression += CLOSE_ROOT_EXPRESSION
     self.root_type.pop()
-    self.total_expression += self.current_expression
-    self.current_expression = ""
     self.update_current_label()
     self.update_total_label()
   
@@ -142,17 +146,21 @@ class Calculator:
   
   def add_operator(self, operator, symbol) -> None:
     self.update_current_label()
-    self.expression_eval += operator
+    self.expression_eval = f"{self.expression_eval}{operator}"
     self.total_expression += f"{self.current_expression}{symbol}"
     self.current_expression = ""
     self.update_current_label()
     self.update_total_label()
   
   def evaluate(self) -> None:
+    result: float = eval(f"{self.expression_eval}")
     try:
-      self.current_expression = f"{eval(self.expression_eval)}" if self.expression_eval != "" else ""
+      self.current_expression = f"{round(result, 9)}" if self.expression_eval != "" else ""
     except:
       self.current_expression = "Error"
+    
+    self.expression_eval = result
+    
     self.total_expression = ""
     self.total_expression_eval = ""
     self.update_current_label()
@@ -160,7 +168,7 @@ class Calculator:
   
   def create_equals_button(self) -> None:
     button: Button = Button(master=self.buttons_frame, text="=", bg=LIGHT_BLUE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.evaluate)
-    button.grid(row=4, column=3, columnspan=2, sticky=NSEW)
+    button.grid(row=4, column=3, sticky=NSEW)
   
   def create_operator_buttons(self) -> None:
     i = 0
@@ -178,11 +186,6 @@ class Calculator:
     self.total_label.config(text=self.total_expression)
   
   def update_current_label(self) -> None:
-    try:
-      self.current_expression = f"{round(float(self.current_expression), 10):g}"
-    except:
-      ...
-    
     self.current_label.config(text=self.current_expression)
   
   def create_buttons_frame(self) -> Frame:
