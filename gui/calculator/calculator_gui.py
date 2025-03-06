@@ -155,7 +155,7 @@ class Calculator:
   def evaluate(self) -> None:
     result: float = eval(f"{self.expression_eval}")
     try:
-      self.current_expression = f"{round(result, 9)}" if self.expression_eval != "" else ""
+      self.current_expression = f"{round(result, 9):0g}" if self.expression_eval != "" else ""
     except:
       self.current_expression = "Error"
     
