@@ -69,7 +69,17 @@ class Calculator:
     self.create_close_root_button()
     self.create_equals_button()
     self.create_pi_button()
+    self.create_phi_button()
     self.create_del_button()
+  
+  def create_phi_button(self) -> None:
+    button: Button = Button(master=self.buttons_frame, text="ϕ", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.phi)
+    button.grid(row=0, column=2, sticky=NSEW)
+  
+  def phi(self) -> None:
+    self.current_expression += 'ϕ'
+    self.expression_eval = f"{self.expression_eval}{PHI}"
+    self.update_current_label()
   
   def create_del_button(self) -> None:
     button: Button = Button(master=self.buttons_frame, text="\u2190", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.delete)
@@ -123,7 +133,7 @@ class Calculator:
   
   def create_square_button(self) -> None:
     button: Button = Button(master=self.buttons_frame, text="x\u00b2", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0, command=self.square)
-    button.grid(row=0, column=2, sticky=NSEW)
+    button.grid(row=4, column=5, sticky=NSEW)
   
   def square(self) -> None:
     self.current_expression += "²"
@@ -197,7 +207,7 @@ class Calculator:
     total_label: Label = Label(master=self.window, text=self.total_expression, bg=LIGHT_GRAY, fg=LABEL_COLOR, anchor=E, padx=20)
     total_label.pack(expand=True, fill="both")
     
-    current_label: Label = Label(self.window, text=self.current_expression, bg=LIGHT_GRAY, fg=LABEL_COLOR, font=BIG_FONT, anchor=E)
+    current_label: Label = Label(master=self.window, text=self.current_expression, bg=LIGHT_GRAY, fg=LABEL_COLOR, font=BIG_FONT, anchor=E)
     current_label.pack(expand=True, fill="both")
     
     return total_label, current_label
