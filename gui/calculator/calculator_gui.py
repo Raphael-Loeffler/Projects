@@ -5,7 +5,6 @@ from math import pi
 """
   TODO List
   1. Complete create_clear_button() - Done
-  TODO!
   2. Complete create_square_button() x\u00b2
   3. Complete create_sqrt_button() \u221ax
   4. In evaluate() avoid errors ...
@@ -87,6 +86,7 @@ class Calculator:
   
   def delete(self) -> None:
     self.current_expression = self.current_expression[:-1]
+    self.expression_eval = str(self.expression_eval)[:-1]
     self.update_current_label()
   
   def create_pi_button(self) -> None:

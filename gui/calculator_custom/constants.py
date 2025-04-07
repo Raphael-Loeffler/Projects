@@ -1,0 +1,26 @@
+from math import pi
+
+# COLORS
+LIGHT_GRAY = "#F5F5F5"
+WHITE = "#FFFFFF"
+LABEL_COLOR = "#25265E"
+OFF_WHITE = "#F8FAFF"
+LIGHT_BLUE = "#CCEDFF"
+
+# FONT
+DEFAULT_FONT = ("arial", 20)
+SMALL_FONT = ("arial", 15)
+BIG_FONT = ("arial", 22, "bold")
+BUTTONS_FONT = ("arial", 24, "bold")
+
+# TEXT
+OPEN_SQRT_DISPLAY_TEXT = "\u221ax"
+OPEN_CURT_DISPLAY_TEXT = "∛x"
+OPEN_SQRT_EXPRESSION = "\u221a"
+OPEN_CURT_EXPRESSION = "∛"
+CLOSE_ROOT_EXPRESSION = "'"
+CLOSE_ROOT_CONFIG_TEXT = "x'"
+
+# NUMBERS
+PHI = (1 + (5 ** 0.5)) / 2
+PI = pi
