@@ -112,13 +112,18 @@ class Calculator_App:
         
         self.total_expression = ""
         
-        self.update()
+        self.update_leave_error()
     
     def create_button(self, display_text, font, fg, bg, row, column, command) -> None:
         button: Button = Button(master=self.buttons_frame, text=display_text, bg=bg, fg=fg, font=font, borderwidth=0, command=command)
         button.grid(row=row, column=column, sticky=NSEW)
     
     def update(self) -> None:
+        self.current_expression = self.current_expression.replace("Error", "")
+        self.current_label.config(text=self.current_expression)
+        self.total_label.config(text=self.total_expression)
+    
+    def update_leave_error(self) -> None:
         self.current_label.config(text=self.current_expression)
         self.total_label.config(text=self.total_expression)
     
