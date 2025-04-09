@@ -35,34 +35,34 @@ class Calculator_App:
     def create_buttons_list(self) -> list:
         return [[
                 ['C', BIG_FONT, LABEL_COLOR, LIGHT_GRAY, self.clear],
-                ['ϕ', BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d='ϕ', e=f"{PHI}", s=False: self.add_to_expressions(d, e, s)],
-                ['π', BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d='π', e=f"{PI}", s=False: self.add_to_expressions(d, e, s)],
-                ["\u00F7", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="\u00F7", e='/', s=True: self.add_to_expressions(d, e, s)],
+                ['ϕ', BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d='ϕ', e=f"{PHI}": self.add_to_expressions(d, e,)],
+                ['π', BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d='π', e=f"{PI}": self.add_to_expressions(d, e)],
+                ["\u00F7", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="\u00F7", e='/': self.add_to_expressions_and_shift(d, e)],
                 ["\u2190", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, self.delete],
             ], [
-                ['7', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='7', e='7', s=False: self.add_to_expressions(d, e, s)],
-                ['8', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='8', e='8', s=False: self.add_to_expressions(d, e, s)],
-                ['9', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='9', e='9', s=False: self.add_to_expressions(d, e, s)],
-                ["\u00D7", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="\u00D7", e='*', s=True: self.add_to_expressions(d, e, s)],
+                ['7', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='7', e='7': self.add_to_expressions(d, e)],
+                ['8', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='8', e='8': self.add_to_expressions(d, e)],
+                ['9', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='9', e='9': self.add_to_expressions(d, e)],
+                ["\u00D7", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="\u00D7", e='*': self.add_to_expressions_and_shift(d, e)],
                 ["√x", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="√", e='(', r=2: self.add_root_expression(d, e, r)],
             ], [
-                ['4', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='4', e='4', s=False: self.add_to_expressions(d, e, s)],
-                ['5', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='5', e='5', s=False: self.add_to_expressions(d, e, s)],
-                ['6', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='6', e='6', s=False: self.add_to_expressions(d, e, s)],
-                ["-", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="-", e='-', s=True: self.add_to_expressions(d, e, s)],
+                ['4', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='4', e='4': self.add_to_expressions(d, e)],
+                ['5', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='5', e='5': self.add_to_expressions(d, e)],
+                ['6', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='6', e='6': self.add_to_expressions(d, e)],
+                ["-", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="-", e='-': self.add_to_expressions_and_shift(d, e)],
                 ["∛x", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="∛", e='(', r=3: self.add_root_expression(d, e, r)],
             ], [
-                ['1', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='1', e='1', s=False: self.add_to_expressions(d, e, s)],
-                ['2', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='2', e='2', s=False: self.add_to_expressions(d, e, s)],
-                ['3', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='3', e='3', s=False: self.add_to_expressions(d, e, s)],
-                ["+", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="+", e='+', s=True: self.add_to_expressions(d, e, s)],
+                ['1', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='1', e='1': self.add_to_expressions(d, e)],
+                ['2', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='2', e='2',: self.add_to_expressions(d, e)],
+                ['3', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='3', e='3': self.add_to_expressions_and_shift(d, e)],
+                ["+", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="+", e='+': self.add_to_expressions_and_shift(d, e)],
                 ["x'", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, self.end_root],
             ], [
-                ['.', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='.', e='.', s=False: self.add_to_expressions(d, e, s)],
-                ['0', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='0', e='0', s=False: self.add_to_expressions(d, e, s)],
+                ['.', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='.', e='.': self.add_to_expressions(d, e)],
+                ['0', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='0', e='0': self.add_to_expressions(d, e)],
                 ["=", BIG_FONT, LABEL_COLOR, LIGHT_BLUE, self.evaluate],
-                ["%", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="%", e='%', s=True: self.add_to_expressions(d, e, s)],
-                ["x²", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="x²", e='**2', s=False: self.add_to_expressions(d, e, s)]
+                ["%", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="%", e='%': self.add_to_expressions_and_shift(d, e)],
+                ["x²", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="x²", e='**2': self.add_to_expressions(d, e)]
             ]
         ]
     
@@ -89,13 +89,16 @@ class Calculator_App:
         self.evaluation_expression = ""
         self.update()
     
-    def add_to_expressions(self, display_text: str, evaluation_text: str, shift: bool) -> None:
-        if shift:
-            self.current_expression += display_text
-            self.total_expression += self.current_expression
-            self.current_expression = ""
-        else:
-            self.current_expression += display_text
+    def add_to_expressions(self, display_text: str, evaluation_text: str) -> None:
+        self.current_expression += display_text
+        
+        self.evaluation_expression += evaluation_text
+        self.update()
+    
+    def add_to_expressions_and_shift(self, display_text: str, evaluation_text: str) -> None:
+        self.current_expression += display_text
+        self.total_expression += self.current_expression
+        self.current_expression = ""
         
         self.evaluation_expression += evaluation_text
         self.update()
