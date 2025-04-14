@@ -31,6 +31,29 @@ class Calculator_App:
         for index_row, button_row in enumerate(self.buttons_list):
             for index_column, button_column in enumerate(button_row):
                 self.create_button(button_column[0], button_column[1], button_column[2], button_column[3], index_row, index_column, button_column[-1])
+        
+        self.bind_keys()
+    
+    def bind_keys(self) -> None:
+        self.window.bind("<Return>", lambda event: self.evaluate())
+        self.window.bind("<BackSpace>", lambda event: self.delete())
+        self.window.bind("<Delete>", lambda event: self.clear())
+        
+        for i in range(10):
+            self.window.bind(f"{i}", lambda event, d=f"{i}", e=f"{i}": self.add_to_expressions(d, e))
+        
+        operator_list = {
+            '+': '+',
+            '-': '-',
+            '/': '\u00F7',
+            '*': '\u00D7',
+            '(': '(',
+            ')': ')',
+            '%': '%',
+            '.': '.'
+        }
+        for operator, symbol in operator_list.items():
+            self.window.bind(f"{operator}", lambda event, d=operator, e=symbol: self.add_to_expressions(d, e))  
     
     def create_buttons_list(self) -> list:
         return [[
@@ -39,12 +62,14 @@ class Calculator_App:
                 ['π', BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d='π', e=f"{PI}": self.add_to_expressions(d, e)],
                 ["\u00F7", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="\u00F7", e='/': self.add_to_expressions_and_shift(d, e)],
                 ["\u2190", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, self.delete],
+                ["(", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d='(', e='(': self.add_to_expressions(d, e)]
             ], [
                 ['7', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='7', e='7': self.add_to_expressions(d, e)],
                 ['8', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='8', e='8': self.add_to_expressions(d, e)],
                 ['9', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='9', e='9': self.add_to_expressions(d, e)],
                 ["\u00D7", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="\u00D7", e='*': self.add_to_expressions_and_shift(d, e)],
                 ["√x", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="√", e='(', r=2: self.add_root_expression(d, e, r)],
+                [")", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d=')', e=')': self.add_to_expressions(d, e)]
             ], [
                 ['4', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='4', e='4': self.add_to_expressions(d, e)],
                 ['5', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='5', e='5': self.add_to_expressions(d, e)],
