@@ -11,6 +11,7 @@ class Calculator_App:
         self.current_expression = ""
         self.total_expression = ""
         self.evaluation_expression = ""
+        self.answer = ""
         
         self.display_frame: Frame = Frame(master=self.window, height=100, bg=WHITE)
         self.display_frame.pack(expand=True, fill="both")
@@ -76,6 +77,7 @@ class Calculator_App:
                 ['6', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='6', e='6': self.add_to_expressions(d, e)],
                 ["-", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="-", e='-': self.add_to_expressions_and_shift(d, e)],
                 ["∛x", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="∛", e='(', r=3: self.add_root_expression(d, e, r)],
+                ["Ans", BIG_FONT, LABEL_COLOR, LIGHT_GRAY, lambda d="Ans", e=f"{self.answer}": self.add_to_expressions(d, e)]
             ], [
                 ['1', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='1', e='1': self.add_to_expressions(d, e)],
                 ['2', BUTTONS_FONT, LABEL_COLOR, OFF_WHITE, lambda d='2', e='2',: self.add_to_expressions(d, e)],
@@ -115,6 +117,7 @@ class Calculator_App:
         self.update()
     
     def add_to_expressions(self, display_text: str, evaluation_text: str) -> None:
+        print(self.answer)
         self.current_expression += display_text
         
         self.evaluation_expression += evaluation_text
@@ -135,6 +138,9 @@ class Calculator_App:
         except:
             self.current_expression = "Error"
         
+        
+        self.answer = self.evaluation_expression
+        print(self.answer)
         self.total_expression = ""
         
         self.update()
